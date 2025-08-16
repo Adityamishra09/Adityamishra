@@ -1,0 +1,37 @@
+{
+  "name": "aditya-mishra-portfolio",
+  "version": "1.0.0",
+  "description": "A modern, responsive portfolio website for Aditya Mishra - MERN Stack Developer",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx live-server --port=3000",
+    "build": "echo 'No build step required for static HTML/CSS/JS'",
+    "preview": "npx serve ."
+  },
+  "keywords": [
+    "portfolio",
+    "mern-stack",
+    "developer",
+    "web-development",
+    "html",
+    "css",
+    "javascript",
+    "responsive",
+    "animations"
+  ],
+  "author": "Aditya Mishra",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0",
+    "live-server": "^1.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/aditya-mishra-portfolio.git"
+  },
+  "homepage": "https://yourusername.github.io/aditya-mishra-portfolio",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 
