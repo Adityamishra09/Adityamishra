@@ -58,10 +58,12 @@ projectCards.forEach((card, index) => {
 // Show animated popup on successful form submit
 function showSuccessPopup() {
     const popup = document.getElementById('successPopup');
-    popup.classList.add('show');
-    setTimeout(() => {
-        popup.classList.remove('show');
-    }, 3000); // Hide after 3 seconds
+    if (popup) {
+        popup.classList.add('show');
+        setTimeout(() => {
+            popup.classList.remove('show');
+        }, 3000);
+    }
 }
 
 // Contact Form Handling (update success part)
