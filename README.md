@@ -37,11 +37,18 @@ A modern, responsive portfolio website showcasing the skills and projects of Adi
 ## 🏗️ Project Structure
 
 ```
-potphoolio/
-├── index.html          # Main HTML file
-├── styles.css          # CSS styles and animations
-├── script.js           # JavaScript functionality
-└── README.md           # Project documentation
+potphoolio01/
+├── index.html              # Main HTML file
+├── styles.css              # CSS styles and animations
+├── script.js               # Frontend JavaScript functionality
+├── server.js               # Backend Express server with Nodemailer
+├── package.json            # Node.js dependencies and scripts
+├── .env                    # Environment variables (create from env.example)
+├── .gitignore             # Git ignore rules
+├── ecosystem.config.js     # PM2 production configuration
+├── env.example            # Environment variables template
+├── image/                  # Profile and project images
+└── README.md              # Project documentation
 ```
 
 ## 🎨 Sections
@@ -73,23 +80,50 @@ potphoolio/
 ## 🚀 Getting Started
 
 ### Prerequisites
+- Node.js (v14 or higher)
 - Modern web browser
-- Local web server (optional, for development)
+- Gmail account with App Password (for email functionality)
 
 ### Installation
-1. Clone or download the project files
-2. Open `index.html` in your web browser
-3. For development, use a local server:
-   ```bash
-   # Using Python
-   python -m http.server 8000
-   
-   # Using Node.js
-   npx serve .
-   
-   # Using PHP
-   php -S localhost:8000
+
+#### 1. Clone and Install Dependencies
+```bash
+git clone <your-repo-url>
+cd potphoolio01
+npm install
+```
+
+#### 2. Environment Setup
+1. Copy `env.example` to `.env`
+2. Update the `.env` file with your email credentials:
+   ```env
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASS=your-app-password
+   FRONTEND_URL=http://localhost:5500
    ```
+
+#### 3. Gmail App Password Setup
+1. Enable 2-Factor Authentication on your Gmail account
+2. Go to Google Account Settings > Security
+3. Generate an App Password for "Mail"
+4. Use this password in your `.env` file
+
+#### 4. Start the Server
+```bash
+# Development mode (with auto-restart)
+npm run dev
+
+# Production mode
+npm start
+
+# Frontend only (static files)
+npm run preview
+```
+
+#### 5. Access the Application
+- Frontend: `http://localhost:5500` (or your preferred port)
+- Backend API: `http://localhost:3000`
+- Health Check: `http://localhost:3000/api/health`
 
 ### Customization
 1. **Personal Information**: Update the content in `index.html`
@@ -99,11 +133,20 @@ potphoolio/
 
 ## 🎯 Key Technologies Used
 
+### **Frontend**
 - **HTML5**: Semantic markup and structure
 - **CSS3**: Modern styling with Flexbox and Grid
 - **JavaScript (ES6+)**: Interactive functionality
 - **Font Awesome**: Icon library
 - **Google Fonts**: Typography (Poppins)
+
+### **Backend**
+- **Node.js**: Server runtime environment
+- **Express.js**: Web application framework
+- **Nodemailer**: Email sending functionality
+- **Helmet**: Security middleware
+- **CORS**: Cross-origin resource sharing
+- **Rate Limiting**: Spam prevention
 
 ## 🌟 Animation Features
 
@@ -170,20 +213,58 @@ potphoolio/
 
 ## 🚀 Deployment
 
-### GitHub Pages
-1. Push code to GitHub repository
-2. Enable GitHub Pages in repository settings
-3. Select source branch (usually `main` or `master`)
+### **Local Development**
+```bash
+# Install dependencies
+npm install
 
-### Netlify
-1. Drag and drop the project folder
-2. Configure custom domain (optional)
-3. Enable form handling for contact form
+# Start backend server
+npm run dev
 
-### Vercel
-1. Connect GitHub repository
-2. Configure build settings
-3. Deploy automatically
+# Frontend will be served at http://localhost:3000
+```
+
+### **Production Deployment**
+
+#### **Option 1: PM2 (Recommended)**
+```bash
+# Install PM2 globally
+npm install -g pm2
+
+# Start with PM2
+npm run pm2:start
+
+# Monitor processes
+npm run pm2:monit
+
+# View logs
+npm run pm2:logs
+```
+
+#### **Option 2: Traditional Deployment**
+```bash
+# Build and start
+npm start
+
+# Or use ecosystem config
+pm2 start ecosystem.config.js --env production
+```
+
+### **Environment Variables**
+Production mein `.env` file mein ye variables set karein:
+```env
+NODE_ENV=production
+PORT=3000
+EMAIL_USER=your-production-email@gmail.com
+EMAIL_PASS=your-production-app-password
+FRONTEND_URL=https://yourdomain.com
+```
+
+### **Cloud Platforms**
+- **Heroku**: Connect GitHub repo, set environment variables
+- **Railway**: Deploy with automatic environment detection
+- **Render**: Connect repo, set build command: `npm start`
+- **DigitalOcean**: Use PM2 ecosystem configuration
 
 ## 🤝 Contributing
 
@@ -200,16 +281,65 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 📞 Contact
 
 - **Name**: Aditya Mishra
-- **Email**: aditya.mishra@email.com
-- **Location**: New Delhi, India
+- **Email**: adityamishra6674@gmail.com
+- **Location**: Jabalpur, India
 - **Skills**: MERN Stack, Full-Stack Development
+
+## 🔐 Security Features
+
+- **Rate Limiting**: Prevents spam and abuse
+- **Helmet**: Security headers protection
+- **CORS**: Controlled cross-origin access
+- **Input Validation**: XSS and injection prevention
+- **Environment Variables**: Secure configuration management
+
+## 📧 Email Features
+
+- **Professional Templates**: Beautiful HTML emails
+- **Auto-replies**: User confirmation emails
+- **Reply-to Setup**: Direct communication
+- **Error Handling**: Graceful failure management
+- **Logging**: Complete audit trail
 
 ## 🙏 Acknowledgments
 
-- Font Awesome for icons
-- Google Fonts for typography
-- Modern CSS techniques and animations
-- JavaScript ES6+ features
+- **Font Awesome**: Icon library
+- **Google Fonts**: Typography (Poppins)
+- **Express.js**: Web framework
+- **Nodemailer**: Email functionality
+- **Modern CSS**: Advanced styling techniques
+- **JavaScript ES6+**: Modern language features
+
+## 🚨 Troubleshooting
+
+### **Common Issues**
+
+#### **Port Already in Use**
+```bash
+# Check what's using port 3000
+netstat -ano | findstr :3000
+
+# Kill the process
+taskkill /F /PID <process_id>
+```
+
+#### **Email Not Sending**
+1. Check `.env` file configuration
+2. Verify Gmail App Password
+3. Enable 2-Factor Authentication
+4. Check server logs for errors
+
+#### **CORS Errors**
+1. Verify `FRONTEND_URL` in `.env`
+2. Check CORS configuration in `server.js`
+3. Ensure frontend and backend ports match
+
+#### **Module Not Found Errors**
+```bash
+# Clean install
+rm -rf node_modules package-lock.json
+npm install
+```
 
 ---
 

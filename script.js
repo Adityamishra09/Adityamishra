@@ -66,8 +66,8 @@ function showSuccessPopup() {
     }
 }
 
-// Contact Form Handling (update success part)
-document.getElementById('contactForm').addEventListener('submit', function(e) {
+// Contact Form Handling with Nodemailer
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const submitBtn = this.querySelector('button[type="submit"]');
@@ -75,17 +75,47 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     submitBtn.textContent = 'Sending...';
     submitBtn.disabled = true;
 
-    emailjs.sendForm('service_506yhd9', 'template_rrzk9mn', this)
-        .then(() => {
-            showSuccessPopup(); // <-- popup show karega
-            this.reset();
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, (error) => {
-            alert('Oops! Something went wrong. Please try again.');
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+    try {
+        const formData = {
+            name: this.name.value.trim(),
+            email: this.email.value.trim(),
+            message: this.message.value.trim()
+        };
+
+        // Client-side validation
+        if (!formData.name || !formData.email || !formData.message) {
+            throw new Error('All fields are required');
+        }
+
+        if (formData.message.length > 1000) {
+            throw new Error('Message is too long (max 1000 characters)');
+        }
+
+        // Send to backend
+        const response = await fetch('http://localhost:3000/api/contact', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
         });
+
+        const result = await response.json();
+
+        if (result.success) {
+            showSuccessPopup();
+            this.reset();
+        } else {
+            throw new Error(result.message || 'Failed to send message');
+        }
+
+    } catch (error) {
+        console.error('Form submission error:', error);
+        alert(error.message || 'Failed to send message. Please try again.');
+    } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+    }
 });
 
 // Mobile Menu Toggle
@@ -355,4 +385,4 @@ darkModeToggle.addEventListener('click', () => {
     }
 });
 
-emailjs.init(EMAILJS_CONFIG.USER_ID);
+// EmailJS initialization removed
