@@ -1,3 +1,5 @@
+# Adityamishra
+
 # Aditya Mishra - MERN Stack Developer Portfolio
 
 A modern, responsive portfolio website showcasing the skills and projects of Aditya Mishra, a MERN Stack Developer. Built with HTML, CSS, and JavaScript featuring smooth animations and a production-ready design.
