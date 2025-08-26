@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 // Security middleware
 app.use(helmet());
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5500',
+    origin: process.env.FRONTEND_URL || 'https://aditya-mishra-dev.onrender.com',
     credentials: true
 }));
 
